@@ -24,6 +24,7 @@ function plugins_loaded()
     add_action('login_enqueue_scripts', array($this, 'login_enqueue_scripts'));
     add_action('login_head', array($this, 'login_head'));
     add_action('login_init', array($this, 'login_init'));
+    add_action('login_form', array($this, 'login_form'));
 }
 
 function login_enqueue_scripts()
@@ -44,9 +45,16 @@ function login_enqueue_scripts()
     );
 }
 
+function login_form()
+{
+    if (isset($_REQUEST['nonce']) && wp_verify_nonce($_REQUEST['nonce'], 'janken')) {
+        echo '<input type="hidden" name="nonce" value="'.esc_attr($_REQUEST['nonce']).'">';
+    }
+}
+
 function login_init()
 {
-    if (isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'janken')) {
+    if (isset($_REQUEST['nonce']) && wp_verify_nonce($_REQUEST['nonce'], 'janken')) {
         return;
     }
 
@@ -55,7 +63,7 @@ function login_init()
 
 function login_head()
 {
-    if (isset($_GET['nonce']) && wp_verify_nonce($_GET['nonce'], 'janken')) {
+    if (isset($_REQUEST['nonce']) && wp_verify_nonce($_REQUEST['nonce'], 'janken')) {
         return;
     }
 ?>

@@ -21,7 +21,7 @@ Leap.loop({enableGestures: true}, function(obj) {
 });
 
 function wait(){
-    if (sleep === 0) {
+    if (sleep < 0) {
         start_game();
         clearInterval(timer);
         return;
